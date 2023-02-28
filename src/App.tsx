@@ -1,16 +1,41 @@
-import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import "@aws-amplify/ui-react/styles.css";
+import {
+  withAuthenticator,
+  WithAuthenticatorProps,
+  Button,
+  Heading,
+  Image,
+  View,
+  Card,
+} from "@aws-amplify/ui-react";
 
-function App() {
+interface Props extends WithAuthenticatorProps {
+  isPassedToWithAuthenticator: boolean;
+}
+
+function App({ isPassedToWithAuthenticator, signOut }: Props) {
+  if (!isPassedToWithAuthenticator) {
+    throw new Error(`isPassedToWithAuthenticator was not provided`);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1>Hello from V2</h1>
-      </header>
-    </div>
+    <View className="App">
+      <Card>
+        <Image src={logo} className="App-logo" alt="logo" />
+        <Heading level={1}>We now have Auth!</Heading>
+      </Card>
+      <Button onClick={signOut}>Sign Out</Button>
+    </View>
   );
 }
 
-export default App;
+export default withAuthenticator(App);
+
+export async function getStaticProps() {
+  return {
+    props: {
+      isPassedToWithAuthenticator: true,
+    },
+  };
+}
