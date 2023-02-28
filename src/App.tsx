@@ -10,15 +10,9 @@ import {
   Card,
 } from "@aws-amplify/ui-react";
 
-interface Props extends WithAuthenticatorProps {
-  isPassedToWithAuthenticator: boolean;
-}
+interface Props extends WithAuthenticatorProps {}
 
-function App({ isPassedToWithAuthenticator, signOut }: Props) {
-  if (!isPassedToWithAuthenticator) {
-    throw new Error(`isPassedToWithAuthenticator was not provided`);
-  }
-
+function App({ signOut }: Props) {
   return (
     <View className="App">
       <Card>
@@ -31,11 +25,3 @@ function App({ isPassedToWithAuthenticator, signOut }: Props) {
 }
 
 export default withAuthenticator(App);
-
-export async function getStaticProps() {
-  return {
-    props: {
-      isPassedToWithAuthenticator: true,
-    },
-  };
-}
