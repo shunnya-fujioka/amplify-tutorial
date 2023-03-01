@@ -1,0 +1,12 @@
+{
+  "resourceName": "s3amplifytutorialstorage2b49cd1b",
+  "bucketName": "amplify-tutorial-storage-2b49cd1b",
+  "policyUUID": "721a7a70",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}

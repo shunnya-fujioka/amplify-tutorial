@@ -22,8 +22,8 @@ interface Note extends CreateNoteInput {
 }
 
 function App({ signOut }: Props) {
-  const [notes, setNotes] = useState<Note[]>([])
-  const [formData, setFormData] = useState(initialFormState)
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [formData, setFormData] = useState(initialFormState);
 
   useEffect(() => {
     fetchNotes();
