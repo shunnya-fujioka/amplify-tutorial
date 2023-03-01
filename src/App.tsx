@@ -16,8 +16,13 @@ const initialFormState: CreateNoteInput = { name: '', description: '' }
 
 interface Props extends WithAuthenticatorProps { }
 
+interface Note extends CreateNoteInput {
+  // optional into required
+  id: string;
+}
+
 function App({ signOut }: Props) {
-  const [notes, setNotes] = useState<CreateNoteInput[]>([])
+  const [notes, setNotes] = useState<Note[]>([])
   const [formData, setFormData] = useState(initialFormState)
 
   useEffect(() => {
@@ -27,7 +32,7 @@ function App({ signOut }: Props) {
   async function fetchNotes() {
     const apiData = await API.graphql(graphqlOperation(listNotes)) as GraphQLResult<ListNotesQuery>;
     if (apiData.data?.listNotes?.items) {
-      const notes = apiData.data.listNotes.items as CreateNoteInput[];
+      const notes = apiData.data.listNotes.items as Note[];
       setNotes(notes);
     }
   }
@@ -35,7 +40,7 @@ function App({ signOut }: Props) {
   async function createNote() {
     if (!formData.name || !formData.description) return;
     await API.graphql(graphqlOperation(createNoteMutation, { input: formData }));
-    setNotes([...notes, formData]);
+    fetchNotes();
     setFormData(initialFormState);
   }
 
@@ -63,11 +68,11 @@ function App({ signOut }: Props) {
       {/* 各ノート表示 */}
       <div style={{ marginBottom: 30 }}>
         {notes.map(note => (
-          <div key={note.id || note.name}>
+          <div key={note.id}>
             <h2>{note.name}</h2>
             <p>{note.description}</p>
             {/* ノート削除 */}
-            <button onClick={() => note.id && deleteNote({ id: note.id })}>Delete note</button>
+            <button onClick={() => deleteNote({ id: note.id })}>Delete note</button>
           </div>
         ))}
       </div>
