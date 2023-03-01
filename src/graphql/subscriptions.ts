@@ -8,6 +8,7 @@ export const onCreateNote = /* GraphQL */ `
       id
       name
       description
+      imageSrc
       createdAt
       updatedAt
       _version
@@ -22,6 +23,7 @@ export const onUpdateNote = /* GraphQL */ `
       id
       name
       description
+      imageSrc
       createdAt
       updatedAt
       _version
@@ -36,6 +38,7 @@ export const onDeleteNote = /* GraphQL */ `
       id
       name
       description
+      imageSrc
       createdAt
       updatedAt
       _version
