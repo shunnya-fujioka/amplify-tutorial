@@ -48,6 +48,7 @@ function App({ signOut }: Props) {
   return (
     <View className="App">
       <h1>My Notes App</h1>
+      {/* ノート作成 */}
       <input
         onChange={e => setFormData({ ...formData, 'name': e.target.value })}
         placeholder="Note name"
@@ -59,15 +60,18 @@ function App({ signOut }: Props) {
         value={formData.description || ''}
       />
       <button onClick={createNote}>Create Note</button>
+      {/* 各ノート表示 */}
       <div style={{ marginBottom: 30 }}>
         {notes.map(note => (
           <div key={note.id || note.name}>
             <h2>{note.name}</h2>
             <p>{note.description}</p>
+            {/* ノート削除 */}
             <button onClick={() => note.id && deleteNote({ id: note.id })}>Delete note</button>
           </div>
         ))}
       </div>
+      {/* サインアウト */}
       <Button onClick={signOut}>Sign Out</Button>
     </View>
   );
