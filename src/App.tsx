@@ -94,7 +94,7 @@ function App({ signOut }: Props) {
             <p>{note.description}</p>
             {note.imageSrc && <img src={note.imageSrc} style={{ width: 400 }} alt="" />}
             {/* ノート削除 */}
-            <button onClick={() => deleteNote({ id: note.id })}>Delete note</button>
+            <button onClick={() => deleteNote(note)}>Delete note</button>
           </div>
         ))}
       </div>
