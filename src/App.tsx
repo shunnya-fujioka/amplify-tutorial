@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 import { API, graphqlOperation, Storage } from 'aws-amplify';
 import { listNotes } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
-import { ListNotesQuery, CreateNoteInput, DeleteNoteInput, DeleteNoteMutationVariables, CreateNoteMutationVariables, DeleteNoteMutation } from './API'
+import { ListNotesQuery, CreateNoteInput, DeleteNoteInput, DeleteNoteMutationVariables, CreateNoteMutationVariables } from './API'
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 
 const initialFormState: CreateNoteInput = { name: '', description: '', imageName: '' }
@@ -19,6 +19,7 @@ interface Props extends WithAuthenticatorProps { }
 interface Note extends CreateNoteInput {
   // optional into required
   id: string;
+  _version: number | null | undefined;
   // `Storage.get()`で取得した値を格納
   imageSrc?: string | null | undefined;
 }
@@ -50,11 +51,11 @@ function App({ signOut }: Props) {
     setFormData(initialFormState);
   }
 
-  async function deleteNote({ id }: DeleteNoteInput) {
+  async function deleteNote(deleteNoteInput: DeleteNoteInput) {
+    console.log(deleteNoteInput);
     try {
-      await API.graphql(graphqlOperation(deleteNoteMutation, { input: { id } } as DeleteNoteMutationVariables));
-      const newNotesArray = notes.filter(note => note.id !== id);
-      setNotes(newNotesArray);
+      await API.graphql(graphqlOperation(deleteNoteMutation, { input: deleteNoteInput } as DeleteNoteMutationVariables));
+      fetchNotes();
     } catch (error) {
       console.error(error);
     }
