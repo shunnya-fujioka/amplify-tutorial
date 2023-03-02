@@ -70,6 +70,7 @@ export type Note = {
   _version: number,
   _deleted?: boolean | null,
   _lastChangedAt: number,
+  owner?: string | null,
 };
 
 export type UpdateNoteInput = {
@@ -174,6 +175,7 @@ export type CreateNoteMutation = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+    owner?: string | null,
   } | null,
 };
 
@@ -194,6 +196,7 @@ export type UpdateNoteMutation = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+    owner?: string | null,
   } | null,
 };
 
@@ -214,6 +217,7 @@ export type DeleteNoteMutation = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+    owner?: string | null,
   } | null,
 };
 
@@ -233,6 +237,7 @@ export type GetNoteQuery = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+    owner?: string | null,
   } | null,
 };
 
@@ -256,6 +261,7 @@ export type ListNotesQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
+      owner?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -283,6 +289,7 @@ export type SyncNotesQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
+      owner?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -291,6 +298,7 @@ export type SyncNotesQuery = {
 
 export type OnCreateNoteSubscriptionVariables = {
   filter?: ModelSubscriptionNoteFilterInput | null,
+  owner?: string | null,
 };
 
 export type OnCreateNoteSubscription = {
@@ -305,11 +313,13 @@ export type OnCreateNoteSubscription = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+    owner?: string | null,
   } | null,
 };
 
 export type OnUpdateNoteSubscriptionVariables = {
   filter?: ModelSubscriptionNoteFilterInput | null,
+  owner?: string | null,
 };
 
 export type OnUpdateNoteSubscription = {
@@ -324,11 +334,13 @@ export type OnUpdateNoteSubscription = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+    owner?: string | null,
   } | null,
 };
 
 export type OnDeleteNoteSubscriptionVariables = {
   filter?: ModelSubscriptionNoteFilterInput | null,
+  owner?: string | null,
 };
 
 export type OnDeleteNoteSubscription = {
@@ -343,5 +355,6 @@ export type OnDeleteNoteSubscription = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+    owner?: string | null,
   } | null,
 };
