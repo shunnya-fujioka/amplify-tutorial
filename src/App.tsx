@@ -52,6 +52,7 @@ function App({ signOut }: Props) {
   }
 
   async function deleteNote({ id, _version }: DeleteNoteInput) {
+    console.debug({ id, _version });
     try {
       await API.graphql(graphqlOperation(deleteNoteMutation, { input: { id, _version } } as DeleteNoteMutationVariables));
       fetchNotes();
