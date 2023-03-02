@@ -51,10 +51,10 @@ function App({ signOut }: Props) {
     setFormData(initialFormState);
   }
 
-  async function deleteNote({ id, _version }: DeleteNoteInput) {
-    console.debug({ id, _version });
+  async function deleteNote({ id }: DeleteNoteInput) {
+    console.debug({ id });
     try {
-      await API.graphql(graphqlOperation(deleteNoteMutation, { input: { id, _version } } as DeleteNoteMutationVariables));
+      await API.graphql(graphqlOperation(deleteNoteMutation, { input: { id } } as DeleteNoteMutationVariables));
       fetchNotes();
     } catch (error) {
       console.error(error);
@@ -99,7 +99,7 @@ function App({ signOut }: Props) {
             <p>{note.description}</p>
             {note.imageSrc && <img src={note.imageSrc} style={{ width: 400 }} alt="" />}
             {/* ノート削除 */}
-            <button onClick={() => deleteNote({ ...note })}>Delete note</button>
+            <button onClick={() => deleteNote(note)}>Delete note</button>
           </div>
         ))}
       </div>
