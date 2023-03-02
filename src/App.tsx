@@ -36,7 +36,7 @@ function App({ signOut }: Props) {
     const apiData = await API.graphql(graphqlOperation(listNotes)) as GraphQLResult<ListNotesQuery>;
     if (apiData.data?.listNotes?.items) {
       const notesFromAPI = apiData.data.listNotes.items;
-      const notes = await Promise.all(notesFromAPI.map(async note => {
+      const notes = await Promise.all(notesFromAPI.filter(note => !note?._deleted).map(async note => {
         const imageSrc = note?.imageName && await Storage.get(note.imageName);
         return { ...note, imageSrc }
       })) as Note[];
@@ -99,7 +99,7 @@ function App({ signOut }: Props) {
             <p>{note.description}</p>
             {note.imageSrc && <img src={note.imageSrc} style={{ width: 400 }} alt="" />}
             {/* ノート削除 */}
-            <button onClick={() => deleteNote({ ...note })}>Delete note</button>
+            <button onClick={() => deleteNote(note)}>Delete note</button>
           </div>
         ))}
       </div>
