@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 import { API, graphqlOperation, Storage } from 'aws-amplify';
 import { listNotes } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
-import { ListNotesQuery, CreateNoteInput, DeleteNoteInput, DeleteNoteMutationVariables, CreateNoteMutationVariables } from './API'
+import { ListNotesQuery, CreateNoteInput, DeleteNoteInput, DeleteNoteMutationVariables, CreateNoteMutationVariables, DeleteNoteMutation } from './API'
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 
 const initialFormState: CreateNoteInput = { name: '', description: '', imageName: '' }
@@ -51,10 +51,13 @@ function App({ signOut }: Props) {
   }
 
   async function deleteNote({ id }: DeleteNoteInput) {
-    console.log(id);
-    const newNotesArray = notes.filter(note => note.id !== id);
-    setNotes(newNotesArray);
-    await API.graphql(graphqlOperation(deleteNoteMutation, { input: { id } } as DeleteNoteMutationVariables));
+    try {
+      await API.graphql(graphqlOperation(deleteNoteMutation, { input: { id } } as DeleteNoteMutationVariables));
+      const newNotesArray = notes.filter(note => note.id !== id);
+      setNotes(newNotesArray);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async function uploadImage(e: React.ChangeEvent<HTMLInputElement>) {
