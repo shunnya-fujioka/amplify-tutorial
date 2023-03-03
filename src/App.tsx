@@ -11,8 +11,6 @@ import { listNotes } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 import { ListNotesQuery, CreateNoteInput, DeleteNoteInput, DeleteNoteMutationVariables, CreateNoteMutationVariables } from './API'
 import { GraphQLResult } from '@aws-amplify/api-graphql';
-import { NoteCardCollection } from "./ui-components"
-
 
 const initialFormState: CreateNoteInput = { name: '', description: '', imageName: '' }
 
@@ -93,7 +91,17 @@ function App({ signOut }: Props) {
       />
       <button onClick={createNote}>Create Note</button>
       {/* 各ノート表示 */}
-      <NoteCardCollection />
+      <div style={{ marginBottom: 30 }}>
+        {notes.map(note => (
+          <div key={note.id}>
+            <h2>{note.name}</h2>
+            <p>{note.description}</p>
+            {note.imageSrc && <img src={note.imageSrc} style={{ width: 400 }} alt="" />}
+            {/* ノート削除 */}
+            <button onClick={() => deleteNote(note)}>Delete note</button>
+          </div>
+        ))}
+      </div>
       {/* サインアウト */}
       <Button onClick={signOut}>Sign Out</Button>
     </View>
