@@ -25,24 +25,20 @@ export default function NoteCreateForm(props) {
   const initialValues = {
     name: "",
     description: "",
-    imageName: "",
   };
   const [name, setName] = React.useState(initialValues.name);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
-  const [imageName, setImageName] = React.useState(initialValues.imageName);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
     setDescription(initialValues.description);
-    setImageName(initialValues.imageName);
     setErrors({});
   };
   const validations = {
     name: [{ type: "Required" }],
     description: [],
-    imageName: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -72,7 +68,6 @@ export default function NoteCreateForm(props) {
         let modelFields = {
           name,
           description,
-          imageName,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -129,7 +124,6 @@ export default function NoteCreateForm(props) {
             const modelFields = {
               name: value,
               description,
-              imageName,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -155,7 +149,6 @@ export default function NoteCreateForm(props) {
             const modelFields = {
               name,
               description: value,
-              imageName,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -169,32 +162,6 @@ export default function NoteCreateForm(props) {
         errorMessage={errors.description?.errorMessage}
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
-      ></TextField>
-      <TextField
-        label="Image name"
-        isRequired={false}
-        isReadOnly={false}
-        value={imageName}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              description,
-              imageName: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.imageName ?? value;
-          }
-          if (errors.imageName?.hasError) {
-            runValidationTasks("imageName", value);
-          }
-          setImageName(value);
-        }}
-        onBlur={() => runValidationTasks("imageName", imageName)}
-        errorMessage={errors.imageName?.errorMessage}
-        hasError={errors.imageName?.hasError}
-        {...getOverrideProps(overrides, "imageName")}
       ></TextField>
       <Flex
         justifyContent="space-between"
@@ -214,7 +181,7 @@ export default function NoteCreateForm(props) {
           {...getOverrideProps(overrides, "RightAlignCTASubFlex")}
         >
           <Button
-            children="Submit"
+            children="Create"
             type="submit"
             variation="primary"
             isDisabled={Object.values(errors).some((e) => e?.hasError)}
