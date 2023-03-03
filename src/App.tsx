@@ -6,7 +6,7 @@ import {
   View,
 } from "@aws-amplify/ui-react";
 import { useState, useEffect } from 'react';
-import { API, graphqlOperation, Storage, Auth } from 'aws-amplify';
+import { API, graphqlOperation, Storage } from 'aws-amplify';
 import { listNotes } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 import { ListNotesQuery, CreateNoteInput, DeleteNoteInput, DeleteNoteMutationVariables, CreateNoteMutationVariables } from './API'
@@ -24,7 +24,7 @@ interface Note extends CreateNoteInput {
   imageSrc?: string | null | undefined;
 }
 
-function App({ signOut }: Props) {
+function App({ signOut, user }: Props) {
   const [notes, setNotes] = useState<Note[]>([]);
   const [formData, setFormData] = useState(initialFormState);
 
@@ -33,9 +33,7 @@ function App({ signOut }: Props) {
   }, []);
 
   async function fetchNotes() {
-    const authToken: string = await Auth.currentAuthenticatedUser();
-    console.debug(authToken);
-    const apiData = await API.graphql(graphqlOperation(listNotes, authToken)) as GraphQLResult<ListNotesQuery>;
+    const apiData = await API.graphql(graphqlOperation(listNotes)) as GraphQLResult<ListNotesQuery>;
     if (apiData.data?.listNotes?.items) {
       const notesFromAPI = apiData.data.listNotes.items;
       const notes = await Promise.all(notesFromAPI.filter(note => !note?._deleted).map(async note => {
@@ -48,8 +46,7 @@ function App({ signOut }: Props) {
 
   async function createNote() {
     if (!formData.name) return;
-    const authToken: string = await Auth.currentAuthenticatedUser();
-    await API.graphql(graphqlOperation(createNoteMutation, { input: formData } as CreateNoteMutationVariables, authToken));
+    await API.graphql(graphqlOperation(createNoteMutation, { input: formData } as CreateNoteMutationVariables));
     fetchNotes();
     setFormData(initialFormState);
   }
@@ -57,8 +54,7 @@ function App({ signOut }: Props) {
   async function deleteNote({ id, _version }: DeleteNoteInput) {
     console.debug({ id, _version });
     try {
-      const authToken: string = await Auth.currentAuthenticatedUser();
-      await API.graphql(graphqlOperation(deleteNoteMutation, { input: { id, _version }, authToken } as DeleteNoteMutationVariables));
+      await API.graphql(graphqlOperation(deleteNoteMutation, { input: { id, _version } } as DeleteNoteMutationVariables));
       fetchNotes();
     } catch (error) {
       console.error(error);
