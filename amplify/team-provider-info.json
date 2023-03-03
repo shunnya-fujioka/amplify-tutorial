@@ -17,6 +17,9 @@
       },
       "storage": {
         "s3amplifytutorialstorage2b49cd1b": {}
+      },
+      "api": {
+        "amplifytutorial": {}
       }
     }
   }

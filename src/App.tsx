@@ -24,7 +24,7 @@ interface Note extends CreateNoteInput {
   imageSrc?: string | null | undefined;
 }
 
-function App({ signOut, user }: Props) {
+function App({ signOut }: Props) {
   const [notes, setNotes] = useState<Note[]>([]);
   const [formData, setFormData] = useState(initialFormState);
 
@@ -52,7 +52,6 @@ function App({ signOut, user }: Props) {
   }
 
   async function deleteNote({ id, _version }: DeleteNoteInput) {
-    console.debug({ id, _version });
     try {
       await API.graphql(graphqlOperation(deleteNoteMutation, { input: { id, _version } } as DeleteNoteMutationVariables));
       fetchNotes();
