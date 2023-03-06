@@ -11,22 +11,15 @@ import { listNotes } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 import { ListNotesQuery, CreateNoteInput, DeleteNoteInput, DeleteNoteMutationVariables, CreateNoteMutationVariables } from './API'
 import { GraphQLResult } from '@aws-amplify/api-graphql';
-import { NoteCardCollection } from './ui-components'
+import { DisplayNote } from "./types/DisplayNote";
+import { NoteCardCollection } from "./components/NoteCardCollection";
 
 const initialFormState: CreateNoteInput = { name: '', description: '', imageName: '' }
 
 interface Props extends WithAuthenticatorProps { }
 
-interface Note extends CreateNoteInput {
-  // optional into required
-  id: string;
-  _version: number | null | undefined;
-  // `Storage.get()`で取得した値を格納
-  imageSrc?: string | null | undefined;
-}
-
 function App({ signOut }: Props) {
-  const [notes, setNotes] = useState<Note[]>([]);
+  const [notes, setNotes] = useState<DisplayNote[]>([]);
   const [formData, setFormData] = useState(initialFormState);
 
   useEffect(() => {
@@ -40,7 +33,7 @@ function App({ signOut }: Props) {
       const notes = await Promise.all(notesFromAPI.filter(note => !note?._deleted).map(async note => {
         const imageSrc = note?.imageName && await Storage.get(note.imageName);
         return { ...note, imageSrc }
-      })) as Note[];
+      })) as DisplayNote[];
       setNotes(notes);
     }
   }
@@ -92,7 +85,7 @@ function App({ signOut }: Props) {
       />
       <button onClick={createNote}>Create Note</button>
       {/* 各ノート表示 */}
-      <NoteCardCollection items={notes} />
+      <NoteCardCollection notes={notes} />
       {/* サインアウト */}
       <Button onClick={signOut}>Sign Out</Button>
     </View>
