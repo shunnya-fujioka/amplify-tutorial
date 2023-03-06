@@ -121,19 +121,20 @@ export default function NoteCard(props) {
           {...getOverrideProps(overrides, "UpdateButton")}
         ></Button>
       </View>
-      <Image
-        width="400px"
-        height="400px"
-        display="block"
-        gap="unset"
-        alignItems="unset"
-        justifyContent="unset"
-        shrink="0"
-        position="relative"
-        padding="0px 0px 0px 0px"
-        objectFit="cover"
-        {...getOverrideProps(overrides, "image")}
-      ></Image>
+      {note?.imageSrc && 
+        <Image
+          width="400px"
+          height="400px"
+          display="block"
+          gap="unset"
+          alignItems="unset"
+          justifyContent="unset"
+          shrink="0"
+          position="relative"
+          padding="0px 0px 0px 0px"
+          objectFit="cover"
+          {...getOverrideProps(overrides, "image")}
+        ></Image>}
       <Flex
         gap="10px"
         direction="column"
