@@ -1,5 +1,4 @@
 import { Text, Button, Image, Card, CardHeader, CardBody, CardFooter, Heading } from "@chakra-ui/react";
-import { API, graphqlOperation } from "aws-amplify";
 import { DeleteNoteInput } from "../API";
 import { DisplayNote } from "../types/DisplayNote";
 
