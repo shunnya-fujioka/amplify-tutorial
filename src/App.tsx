@@ -2,8 +2,6 @@ import "@aws-amplify/ui-react/styles.css";
 import {
   withAuthenticator,
   WithAuthenticatorProps,
-  Button,
-  View,
 } from "@aws-amplify/ui-react";
 import { useState, useEffect } from 'react';
 import { API, graphqlOperation, Storage } from 'aws-amplify';
@@ -12,7 +10,8 @@ import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } fr
 import { ListNotesQuery, CreateNoteInput, DeleteNoteInput, DeleteNoteMutationVariables, CreateNoteMutationVariables } from './API'
 import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { DisplayNote } from "./types/DisplayNote";
-import { NoteCardCollection } from "./components/NoteCardCollection";
+import { VStack, Input, Heading, StackDivider, Center, Button, SimpleGrid } from "@chakra-ui/react";
+import { NoteCard } from "./components/NoteCard";
 
 const initialFormState: CreateNoteInput = { name: '', description: '', imageName: '' }
 
@@ -63,32 +62,38 @@ function App({ signOut }: Props) {
   }
 
   return (
-    <View className="App">
-      <h1>My Notes App</h1>
-      {/* ノート作成 */}
-      {/* 名前 */}
-      <input
-        onChange={e => setFormData({ ...formData, 'name': e.target.value })}
-        placeholder="Note name"
-        value={formData.name}
-      />
-      {/* 内容 */}
-      <input
-        onChange={e => setFormData({ ...formData, 'description': e.target.value })}
-        placeholder="Note description"
-        value={formData.description || ''}
-      />
-      {/* 画像 */}
-      <input
-        type="file"
-        onChange={uploadImage}
-      />
-      <button onClick={createNote}>Create Note</button>
-      {/* 各ノート表示 */}
-      <NoteCardCollection notes={notes} />
-      {/* サインアウト */}
-      <Button onClick={signOut}>Sign Out</Button>
-    </View>
+    <Center>
+      <VStack p={10} divider={<StackDivider />} width="container.md" align="center">
+        <Heading>My Notes App</Heading>
+        {/* ノート作成 */}
+        <VStack width="container.sm">
+          {/* 名前 */}
+          <Input
+            onChange={e => setFormData({ ...formData, 'name': e.target.value })}
+            placeholder="Note name"
+            value={formData.name}
+          />
+          {/* 内容 */}
+          <Input
+            onChange={e => setFormData({ ...formData, 'description': e.target.value })}
+            placeholder="Note description"
+            value={formData.description || ''}
+          />
+          {/* 画像 */}
+          <input
+            type="file"
+            onChange={uploadImage}
+          />
+          <Button onClick={createNote} size="sm">Create Note</Button>
+        </VStack>
+        {/* 各ノート表示 */}
+        <SimpleGrid columns={1} spacing={3}>
+          {notes.map(note => <NoteCard note={note} onDeleteButtonClick={deleteNote}/>)}
+        </SimpleGrid>
+        {/* サインアウト */}
+        <Button onClick={signOut} size="sm">Sign Out</Button>
+      </VStack>
+    </Center>
   );
 }
 

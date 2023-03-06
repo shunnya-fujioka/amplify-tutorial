@@ -1,20 +1,27 @@
-import { VStack, HStack, Text, Button, Image, Spacer } from "@chakra-ui/react";
+import { Text, Button, Image, Card, CardHeader, CardBody, CardFooter, Heading } from "@chakra-ui/react";
+import { API, graphqlOperation } from "aws-amplify";
+import { DeleteNoteInput } from "../API";
 import { DisplayNote } from "../types/DisplayNote";
 
 interface Props {
   note: DisplayNote
+  onDeleteButtonClick: (note: DeleteNoteInput) => void
 }
 
-export const NoteCard = ({ note }: Props) => {
+export const NoteCard = ({ note, onDeleteButtonClick }: Props) => {
   return (
-    <VStack>
-      <HStack>
-        <Text fontSize="lg">{note.name}</Text>
-        <Spacer />
-        <Button>Delete</Button>
-      </HStack>
-      <Text fontSize="sm" textAlign="left">{note.description}</Text>
-      {note.imageSrc && <Image src={note.imageSrc} maxWidth="400px" fit="contain" />}
-    </VStack>
+    <Card width="container.sm" alignContent="space-between" key={note.id}>
+      <CardHeader>
+        <Heading size="sm">{note.name}</Heading>
+      </CardHeader>
+      {(note.description || note.imageSrc) &&
+        <CardBody>
+          <Text fontSize="sm">{note.description}</Text>
+          {note.imageSrc && <Image src={note.imageSrc} maxWidth="sm" fit="contain" />}
+        </CardBody>}
+      <CardFooter>
+        <Button size="sm" onClick={() => onDeleteButtonClick(note)}>Delete</Button>
+      </CardFooter>
+    </Card>
   );
 }
