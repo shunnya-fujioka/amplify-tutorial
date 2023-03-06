@@ -29,10 +29,12 @@ export default function NoteCardCollection(props) {
   }, [itemsProp, itemsDataStore]);
   return (
     <Collection
-      type="list"
+      type="grid"
       searchPlaceholder="Search..."
-      direction="column"
-      justifyContent="stretch"
+      templateColumns="1fr 1fr"
+      autoFlow="row"
+      alignItems="top"
+      justifyContent="center"
       items={items || []}
       {...getOverrideProps(overrides, "NoteCardCollection")}
       {...rest}
@@ -40,6 +42,9 @@ export default function NoteCardCollection(props) {
       {(item, index) => (
         <NoteCard
           note={item}
+          height="auto"
+          width="420px"
+          margin="3px 3px 3px 3px"
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}
         ></NoteCard>

@@ -7,15 +7,16 @@
 import * as React from "react";
 import { Note } from "../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { ButtonProps, FlexProps, ImageProps, TextProps, ViewProps } from "@aws-amplify/ui-react";
+import { ButtonProps, FlexProps, ImageProps, TextProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type NoteCardOverridesProps = {
     NoteCard?: PrimitiveOverrideProps<FlexProps>;
-    "Frame 2"?: PrimitiveOverrideProps<ViewProps>;
-    "Group 1"?: PrimitiveOverrideProps<ViewProps>;
+    "Frame 2"?: PrimitiveOverrideProps<FlexProps>;
+    "Group 1"?: PrimitiveOverrideProps<FlexProps>;
     name?: PrimitiveOverrideProps<TextProps>;
     description?: PrimitiveOverrideProps<TextProps>;
     UpdateButton?: PrimitiveOverrideProps<ButtonProps>;
+    "Frame 4"?: PrimitiveOverrideProps<FlexProps>;
     image?: PrimitiveOverrideProps<ImageProps>;
     "Frame 3"?: PrimitiveOverrideProps<FlexProps>;
     DeleteButton?: PrimitiveOverrideProps<ButtonProps>;

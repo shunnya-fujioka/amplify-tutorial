@@ -12,7 +12,7 @@ import {
   useDataStoreDeleteAction,
 } from "@aws-amplify/ui-react/internal";
 import { schema } from "../models/schema";
-import { Button, Flex, Image, Text, View } from "@aws-amplify/ui-react";
+import { Button, Flex, Image, Text } from "@aws-amplify/ui-react";
 export default function NoteCard(props) {
   const { note, overrides, ...rest } = props;
   const deleteButtonOnClick = useDataStoreDeleteAction({
@@ -30,26 +30,29 @@ export default function NoteCard(props) {
       alignItems="flex-start"
       overflow="hidden"
       position="relative"
-      padding="10px 10px 10px 10px"
+      border="0.5px SOLID rgba(0,0,0,0.5)"
+      boxShadow="0px 1px 2px rgba(0, 0, 0, 0.25)"
+      borderRadius="3px"
+      padding="9.5px 9.5px 9.5px 9.5px"
       backgroundColor="rgba(255,255,255,1)"
       {...getOverrideProps(overrides, "NoteCard")}
       {...rest}
     >
-      <View
+      <Flex
+        gap="200px"
+        direction="row"
         width="400px"
-        height="54px"
-        display="block"
-        gap="unset"
-        alignItems="unset"
-        justifyContent="unset"
+        height="unset"
+        justifyContent="space-between"
+        alignItems="center"
         overflow="hidden"
         shrink="0"
         position="relative"
-        padding="0px 0px 0px 0px"
+        padding="0px 3px 0px 3px"
         backgroundColor="rgba(255,255,255,1)"
         {...getOverrideProps(overrides, "Frame 2")}
       >
-        <View
+        <Flex
           padding="0px 0px 0px 0px"
           width="74px"
           height="54px"
@@ -57,9 +60,8 @@ export default function NoteCard(props) {
           gap="unset"
           alignItems="unset"
           justifyContent="unset"
-          position="absolute"
-          top="0px"
-          left="0px"
+          shrink="0"
+          position="relative"
           {...getOverrideProps(overrides, "Group 1")}
         >
           <Text
@@ -106,44 +108,56 @@ export default function NoteCard(props) {
             children={note?.description}
             {...getOverrideProps(overrides, "description")}
           ></Text>
-        </View>
+        </Flex>
         <Button
           width="unset"
           height="unset"
           justifyContent="flex-end"
-          position="absolute"
-          top="6px"
-          right="-1px"
-          size="default"
+          shrink="0"
+          size="small"
           isDisabled={false}
           variation="default"
           children="Update"
           {...getOverrideProps(overrides, "UpdateButton")}
         ></Button>
-      </View>
-      {note?.imageSrc && 
+      </Flex>
+      {note?.imageSrc && <Flex
+        gap="10px"
+        direction="row"
+        width="400px"
+        height="unset"
+        justifyContent="center"
+        alignItems="flex-start"
+        shrink="0"
+        position="relative"
+        padding="0px 10px 0px 10px"
+        {...getOverrideProps(overrides, "Frame 4")}
+      >
         <Image
-          width="400px"
-          height="400px"
+          width="unset"
+          height="150px"
           display="block"
           gap="unset"
           alignItems="unset"
           justifyContent="unset"
-          shrink="0"
+          grow="1"
+          shrink="1"
+          basis="0"
           position="relative"
           padding="0px 0px 0px 0px"
-          objectFit="cover"
+          objectFit="contain"
+          src={note?.imageSrc}
           {...getOverrideProps(overrides, "image")}
-        ></Image>}
+        ></Image>
+      </Flex>}
       <Flex
         gap="10px"
         direction="column"
-        width="unset"
+        width="400px"
         height="unset"
         justifyContent="flex-start"
         alignItems="center"
         shrink="0"
-        alignSelf="stretch"
         position="relative"
         padding="0px 0px 0px 0px"
         {...getOverrideProps(overrides, "Frame 3")}
@@ -152,7 +166,7 @@ export default function NoteCard(props) {
           width="unset"
           height="unset"
           shrink="0"
-          size="default"
+          size="small"
           isDisabled={false}
           variation="default"
           children="Delete"
